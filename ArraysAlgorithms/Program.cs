@@ -11,7 +11,7 @@ namespace ArraysAlgorithms
     {
         static void Main(string[] args)
         {
-            char[] originalList = new char[] { 'H', 'A', 'R', 'R', 'Y'};
+            char[] originalList = new char[] { 'B', 'A', 'N', 'A', 'N', 'A', 'S'};
             Stack<char> currentList = new Stack<char>();
             List<char[]> listOfSubsets = new List<char[]>();
 
@@ -23,8 +23,7 @@ namespace ArraysAlgorithms
             var resultSubList2 = new List<char>();
 
             Console.WriteLine("Children of String A:");
-            var result = BuildListOfSubsets(originalList, listOfSubsets, 0, currentList);
-          
+            var result = BuildListOfSubsets(originalList, listOfSubsets, 0, currentList);            
 
             Console.WriteLine("Children of String B:");
             var  result2 = BuildListOfSubsets(originalList2, listOfSubsets2, 0, currentList);
@@ -38,6 +37,8 @@ namespace ArraysAlgorithms
             {
                 Console.Write(minStrings[c]);
             }
+
+            var palindroms = FindAllPalindroms(result);
         }
 
         private static List<char[]> BuildListOfSubsets(char[] originalList, List<char[]> listOfSubsets, int currentLevel, Stack<char> currentList)
@@ -98,6 +99,31 @@ namespace ArraysAlgorithms
             }
 
             return maxIndex != -1 ? charArray[maxIndex] : new char[0];
+        }
+
+        private static List<char[]> FindAllPalindroms(List<char[]> list)
+        {
+            var result = new List<char[]>();
+            foreach (var arr in list)
+            {
+                if (arr.Length < 2) continue;
+
+                var i = 0;
+                var j = arr.Count() - 1;               
+
+                var isPolindroms = true;
+                while (i < arr.Count() / 2)
+                {
+                    if (arr[i] != arr[j])
+                        isPolindroms = false;
+                    i++; j--;
+                }
+
+                if(isPolindroms)
+                    result.Add(arr);
+            }
+
+            return result;
         }
     }
 }
