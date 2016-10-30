@@ -74,10 +74,10 @@ namespace ArraysAlgorithms
             return equalStrings;
         }
 
-        private char[] FindMinStrings()
+        private static char[] FindMinStrings()
         {
             //Find Min
-            return new char[];
+            return new char[] { };
         }
     }
 }
