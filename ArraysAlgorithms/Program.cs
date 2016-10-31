@@ -15,30 +15,55 @@ namespace ArraysAlgorithms
             Stack<char> currentList = new Stack<char>();
             List<char[]> listOfSubsets = new List<char[]>();
 
-            char[] originalList2 = new char[] { 'S', 'A', 'L', 'L', 'Y'};
-            Stack<char> currentList2 = new Stack<char>();
-            List<char[]> listOfSubsets2 = new List<char[]>();
+            //char[] originalList2 = new char[] { 'S', 'A', 'L', 'L', 'Y'};
+            //Stack<char> currentList2 = new Stack<char>();
+            //List<char[]> listOfSubsets2 = new List<char[]>();
 
-            var resultSubList = new List<char>();
-            var resultSubList2 = new List<char>();
+            //var resultSubList = new List<char>();
+            //var resultSubList2 = new List<char>();
 
-            Console.WriteLine("Children of String A:");
+            //Console.WriteLine("Children of String A:");
             var result = BuildListOfSubsets(originalList, listOfSubsets, 0, currentList);            
 
-            Console.WriteLine("Children of String B:");
-            var  result2 = BuildListOfSubsets(originalList2, listOfSubsets2, 0, currentList);
+            //Console.WriteLine("Children of String B:");
+            //var  result2 = BuildListOfSubsets(originalList2, listOfSubsets2, 0, currentList);
 
-            var equalStrings = FindEqualStrings(result, result2);
+            //var equalStrings = FindEqualStrings(result, result2);
 
-            var minStrings = FindMinStrings(equalStrings);
+            //var minStrings = FindMinStrings(equalStrings);
 
-            Console.WriteLine("Max Shared Sub String: ");
-            for(var c = minStrings.Count()-1; c>=0;c--)
+            //Console.WriteLine("Max Shared Sub String: ");
+            //for(var c = minStrings.Count()-1; c>=0;c--)
+            //{
+            //    Console.Write(minStrings[c]);
+            //}
+
+            //var palindroms = FindAllPalindroms(result);
+
+            //var permutations = FindAllPermutations(originalList, new List<char[]>(), 0, currentList);
+
+            var charArray = new char[] { 'A','E','R'};
+            Permutations(charArray, new List<char[]>(), 0, charArray.Count() - 1);
+        }
+
+        private static void Permutations(char[] charArray, List<char[]> result, int start, int end)
+        {
+            if (start == end)
+                Console.WriteLine(charArray);
+            for (var i = start; i< charArray.Count(); i++)
             {
-                Console.Write(minStrings[c]);
+                //Console.WriteLine(charArray[i]);
+                Swap(charArray, start, i);
+                Permutations(charArray, result, start+1, end);
+                Swap(charArray, start, i);
             }
+        }
 
-            var palindroms = FindAllPalindroms(result);
+        private static void Swap(char[] list, int i, int j)
+        {
+            var temp = list[i];
+            list[i] = list[j];
+            list[j] = temp;
         }
 
         private static List<char[]> BuildListOfSubsets(char[] originalList, List<char[]> listOfSubsets, int currentLevel, Stack<char> currentList)
@@ -60,6 +85,33 @@ namespace ArraysAlgorithms
             {
                 currentList.Push(originalList[ix]);
                 BuildListOfSubsets(originalList, listOfSubsets, ix + 1, currentList);
+                currentList.Pop();
+            }
+
+            return listOfSubsets;
+        }
+
+        private static List<char[]> FindAllPermutations(char[] originalList, List<char[]> listOfSubsets, int currentLevel, Stack<char> currentList)
+        {
+            var resultSubList = new List<char>();
+
+            foreach (var v in currentList)
+            {
+                Console.Write(v + " ");
+                resultSubList.Add(v);
+            }
+
+            if (resultSubList.Count == originalList.Count())
+            {
+                listOfSubsets.Add(resultSubList.ToArray<char>());
+            }
+
+            Console.WriteLine();
+
+            for (int ix = currentLevel; ix < originalList.Length; ix++)
+            {
+                currentList.Push(originalList[ix]);
+                FindAllPermutations(originalList, listOfSubsets, ix + 1, currentList);
                 currentList.Pop();
             }
 
